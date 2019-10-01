@@ -1,4 +1,5 @@
 from room import Room
+from player import Player
 
 # Declare all the rooms
 
@@ -20,6 +21,10 @@ to north. The smell of gold permeates the air."""),
 chamber! Sadly, it has already been completely emptied by
 earlier adventurers. The only exit is to the south."""),
 }
+
+room_map = {"Outside Cave Entrance":'outside', 'Foyer': 'foyer', 
+            'Grand Overlook':'overlook', 'Narrow Passage':'narrow',
+            'Treasure Chamber':'treasure'}
 
 
 # Link rooms together
@@ -49,3 +54,37 @@ room['treasure'].s_to = room['narrow']
 # Print an error message if the movement isn't allowed.
 #
 # If the user enters "q", quit the game.
+
+player = Player('outside')
+
+user_input = ''
+
+while user_input != 'q':
+  current_room = room[player.current_room] 
+  print('You are in the ' + current_room.name)
+  print(current_room.description)
+  user_input = input('Enter "n, s, e, w to go north, south, east, or west", or enter "q" to quit game:')
+  if user_input == 'n':
+    try:
+      player.current_room = room_map[room[player.current_room].n_to.name]
+    except:
+      print('Error: "' + user_input +" direction not allowed.")
+  elif user_input == 's':
+    try:
+      player.current_room = room_map[room[player.current_room].s_to.name]
+    except:
+      print('Error: "' + user_input +" direction not allowed.")
+  elif user_input == 'e':
+    try:
+      player.current_room = room_map[room[player.current_room].e_to.name]
+    except:
+      print('Error: "' + user_input +" direction not allowed.")
+  elif user_input == 'w':
+    try:
+      player.current_room = room_map[room[player.current_room].w_to.name]
+    except:
+      print('Error: "' + user_input +" direction not allowed.")
+  elif user_input == 'q':
+    continue
+  else:
+    user_input = input('Error, unknown input: Enter "n, s, e, w to go north, south, east, or west", or enter "q" to quit game:')
